@@ -36,7 +36,7 @@ const App = () => {
           alert("Signed in")
         } catch (error) {
             alert(error)
-          // Handle the error appropriately (e.g., show an error message to the user)
+          // Handle the error appropriately (e.g., show an error message to the user).
         }
       };
  return (
