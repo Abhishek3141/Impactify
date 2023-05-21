@@ -1,0 +1,11 @@
+1) Add the android app in firebase
+2) Enable google sign-in
+3) Cd android 
+4) ./gradlew signingReport -> this will generate the SHA tokens and debug.keystore file sindie android/app folder
+5) Go to that android/app folder and run keytool -list -v -keystore debug.keystore(use the password – android(this the default password))
+6) Copy the SHA1(for this androiddebugkey) to the firebase android app
+7) Download the google-services.json
+8) Copy that in android/app folder
+9) Copy the webclientid from that google-service.json into the GoogleSignin.configure section
+
+

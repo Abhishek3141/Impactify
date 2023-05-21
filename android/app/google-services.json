@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "172522252017",
+    "firebase_url": "https://impactify-7c86a-default-rtdb.firebaseio.com",
+    "project_id": "impactify-7c86a",
+    "storage_bucket": "impactify-7c86a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172522252017:android:ebfc29b121f8a946982b50",
+        "android_client_info": {
+          "package_name": "com.impactify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172522252017-7qkq5ph7rlfsn5cqrfo1uuel5tdqfi82.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.impactify",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "172522252017-epep07ohhiv2ld1680ju56mqqk376884.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtWetXNzEtH6KEjDQphfoMFjC8zfKZgF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172522252017-1nmito1jo8kqj8vlffh4n9l7m3a76t33.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
