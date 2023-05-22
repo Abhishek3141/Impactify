@@ -1,56 +1,83 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Button, Alert } from 'react-native';
-import { ref, set } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
+import { FlatList, SafeAreaView, View, Text, Button } from 'react-native';
+import AttractionCard from '../../components/AttractionCard';
+import Categories from '../../components/Categories';
+import Title from '../../components/Title';
+import styles from './styles';
 import { db } from '../../db';
+import { ref, onValue } from 'firebase/database';
 
-export default function Home() {
-  const [name, setName] = useState('');
+const All = 'All';
 
+const Home = () => {
+  const [todoData, setTodoData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(All);
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    const starCountRef = ref(db, 'Services/');
+    onValue(starCountRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const newPosts = Object.keys(data).map(key => ({
+          id: key,
+          ...data[key],
+        }));
+        setTodoData(newPosts);
+      } else {
+        setTodoData([]);
+      }
+    });
+  }, []);
 
-  function createData() {
-    set(ref(db, 'Services/' + name), {
-      name: name,
-    })
-      .then(() => {
-        // Data saved successfully!
-        Alert.alert('Data submitted');
-        setName('');
-      })
-      .catch((error) => {
-        // The write failed...
-        Alert.alert(error);
-      });
-  }
+  useEffect(() => {
+    setData(todoData);
+  }, [todoData]);
+
+  useEffect(() => {
+    if (selectedCategory === All) {
+      setData(todoData);
+    } else {
+      const filteredData = todoData?.filter(item => item?.categories?.includes(selectedCategory));
+      setData(filteredData);
+    }
+  }, [selectedCategory, todoData]);
+
+  const renderItem = ({ item, index }) => (
+    <AttractionCard
+      key={item.id}
+      style={index % 2 === 0 ? { marginRight: 28, marginLeft: 0 } : { marginRight: 32 }}
+      title={item.Name}
+      subtitle={item.Location}
+      imageSrc={typeof item.imageUrl === 'string' ? { uri: item.imageUrl } :
+        (Array.isArray(item.imageUrl) && item.imageUrl.length > 0 ? { uri: item.imageUrl[0] } : null)
+      }
+    />
+  );
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        value={name}
-        onChangeText={(name) => {
-          setName(name);
-        }}
-        placeholder="Name"
-        style={styles.textBoxes}
+    <SafeAreaView style={styles.container}>
+      <View style={{ margin: 0 }}>
+        <Title text="What do" style={{ fontWeight: 'normal' }} />
+        <Title text="you want to do" />
+        <Title text="Explore Services" style={styles.subtitle} />
+        <Button title="Press me" onPress={() => console.log('Button pressed')} />
+      </View>
+      <Categories
+        selectedCategory={selectedCategory}
+        onCategoryPress={setSelectedCategory}
+        categories={[All]}
       />
-      <Button title="SignUp" onPress={createData} />
-    </View>
+      <FlatList
+        data={data}
+        numColumns={1}
+        style={{ flexGrow: 1 }}
+        ListEmptyComponent={<Text style={styles.emptyText}>No Items Found</Text>}
+        keyExtractor={item => String(item?.id)}
+        renderItem={renderItem}
+      />
+    </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textBoxes: {
-    width: '90%',
-    fontSize: 18,
-    padding: 12,
-    borderColor: 'gray',
-    borderWidth: 0.2,
-    borderRadius: 10,
-  },
-});
+export default React.memo(Home);

@@ -3,7 +3,7 @@ import Home from './src/screens/Home';
 import AddItem from './src/screens/Additem'
 
 const App = () => {
-  return <AddItem />;
+  return <Home />;
 };
 
 export default App;
